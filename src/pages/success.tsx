@@ -6,35 +6,16 @@ import {useRouter} from 'next/router'
 
 const supabase = createClient("https://ybmhbwgukqfkksysxbca.supabase.co","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlibWhid2d1a3Fma2tzeXN4YmNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjYzMDgzOTksImV4cCI6MTk4MTg4NDM5OX0.ycx2LyEVJ-i3SjQ-ffIAFBhdsNky1TMYzPaja1gdoAA")
 
-const userId = "957874443433160766";
-const guildId = "1017916656242130954";
-const bot_token =
-  "MTAzMjk0NzU4OTAzOTAxODAzNQ.G-nfAD.gGfXE4yPp7esevaH12IdpS3uyxyTAB0jeMqkMM";
-
-  const guildMemberURL = `https://discord.com/api/guilds/${guildId}/members/${userId}`;
-const guidlRolesURL = `https://discord.com/api/guilds/${guildId}/roles`;
-
-const headers = {
-  authorization: `Bot ${bot_token}`,
-};
-
 
 
 function success() {
 
      const [user,setUser] = useState({});
     const router = useRouter(); 
+    const [discordId,setDiscordId] = useState(null)
 
-    // if(client){
-    //     console.log("client: ",client)
-    // }else{
-    //     console.log("no client")
-    // }
 
     useEffect(()=>{
-        fetch(guidlRolesURL,{method:"GET",headers})
-        .then((response) => response.json())
-          .then((data) => console.log(data));
     },[])
 
     const signOutUser = async () => {
@@ -49,12 +30,26 @@ function success() {
         async function getUserData(){
             const user = await supabase.auth.getUser()
             if(user.data?.user){
-                console.log(user.data.user)
+                console.log(user.data.user.user_metadata.provider_id)
+                setDiscordId(user.data.user.user_metadata.provider_id)
                 setUser(user.data.user)
             }
         }
         getUserData();
     },[]) // runs once
+
+
+    useEffect(()=>{
+        if(discordId){
+            const isWhiteListedFunction = async () => {
+                console.log(`https://wl-checker.herokuapp.com/${discordId}`)
+                const res = await fetch(`https://wl-checker.herokuapp.com/${discordId}`, {mode: 'no-cors'})
+                const body = await res.json()
+                console.log("RES: ",res);
+            }
+            isWhiteListedFunction();
+        }
+    },[discordId])
   return (
     <div>
         {Object.keys(user).length !== 0 ? (<> success
