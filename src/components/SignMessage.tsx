@@ -18,6 +18,7 @@ export const SignMessage: FC = () => {
             const message = new TextEncoder().encode('Hello, world!');
             // Sign the bytes using the wallet
             const signature = await signMessage(message);
+            console.log("signatuer: ",signature," some other shit: ",bs58.encode(signature))
             // Verify that the bytes were signed using the private key that matches the known public key
             if (!sign.detached.verify(message, signature, publicKey.toBytes())) throw new Error('Invalid signature!');
             notify({ type: 'success', message: 'Sign message successful!', txid: bs58.encode(signature) });
