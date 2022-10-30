@@ -5,7 +5,7 @@ import {useRouter} from 'next/router'
 
 
 const supabase = createClient("https://ybmhbwgukqfkksysxbca.supabase.co","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlibWhid2d1a3Fma2tzeXN4YmNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjYzMDgzOTksImV4cCI6MTk4MTg4NDM5OX0.ycx2LyEVJ-i3SjQ-ffIAFBhdsNky1TMYzPaja1gdoAA")
-
+// const supabase = createClient("https://mzamjqypleiulkflzfxs.supabase.co","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im16YW1qcXlwbGVpdWxrZmx6ZnhzIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjcxNzAzMzksImV4cCI6MTk4Mjc0NjMzOX0.A7TJTU3AJZ8qeJS_vzwdndp4PM6lCjq6mqI6JDqeUpA")
 
 function Login() {
     const router = useRouter()
@@ -24,6 +24,7 @@ function Login() {
             appearance={{theme: ThemeSupa}}
             theme={"dark"}
             providers={['discord']}
+            onlyThirdPartyProviders={true}
         />
     </div>
   )
