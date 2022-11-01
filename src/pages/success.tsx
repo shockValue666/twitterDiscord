@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import {createClient} from '@supabase/supabase-js'
 import {Auth, ThemeSupa} from "@supabase/auth-ui-react"
 import {useRouter} from 'next/router'
+import { supabase } from 'utils/connectdb'
 
 
-const supabase = createClient("https://ybmhbwgukqfkksysxbca.supabase.co","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlibWhid2d1a3Fma2tzeXN4YmNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjYzMDgzOTksImV4cCI6MTk4MTg4NDM5OX0.ycx2LyEVJ-i3SjQ-ffIAFBhdsNky1TMYzPaja1gdoAA")
 
 
 
@@ -33,10 +33,10 @@ function success() {
     }
 
     const setAddress = async () => {
-        console.log("userAddress :",userAddress)
+        // console.log("userAddress :",userAddress)
         try {
             const user = await supabase.auth.getUser();
-            console.log("id: : : ",user.data.user.id)
+            // console.log("id: : : ",user.data.user.id)
             const updates = {
             user_id: user.data.user.id,
             address:userAddress,
@@ -47,7 +47,7 @@ function success() {
             if (error) {
             throw error;
             }
-            console.log("data after inserting: ",data)
+            // console.log("data after inserting: ",data)
             if(data[0].address){
                 setAlreadyAddress(data[0].address)
             }
@@ -58,10 +58,10 @@ function success() {
 
 
     const updateAddress = async () => {
-        console.log("userAddress :",userAddressToBeUpdated)
+        // console.log("userAddress :",userAddressToBeUpdated)
         try {
             const user = await supabase.auth.getUser();
-            console.log("id: : : ",user.data.user.id)
+            // console.log("id: : : ",user.data.user.id)
             const updates = {
             user_id: user.data.user.id,
             address:userAddress,
@@ -72,7 +72,7 @@ function success() {
             if (error) {
             throw error;
             }
-            console.log("data after inserting: ",data)
+            // console.log("data after inserting: ",data)
         } catch (error) {
             alert(error.message);
         }
@@ -94,14 +94,14 @@ function success() {
     useEffect(()=>{
         if(discordId){
             const isWhiteListedFunction = async () => {
-                console.log(`https://wl-checker.herokuapp.com/${discordId}`)
+                // console.log(`https://wl-checker.herokuapp.com/${discordId}`)
                 const res = await fetch(`https://wl-checker.herokuapp.com/${discordId}`)
                 const body = await res.json()
                 if(body){
                     setIsWhitelisted(true)
                 }
                 setIsLoading(false)
-                console.log("RES: ",typeof body);
+                // console.log("RES: ",typeof body);
             }
             isWhiteListedFunction();
         }
@@ -117,9 +117,9 @@ function success() {
                 .eq('user_id', `${id}`)
 
             if(error){
-                console.log("error: ",error)
+                // console.log("error: ",error)
             }else{
-                console.log("data: ",data);
+                // console.log("data: ",data);
                 if(data[0]?.address){
                     setAlreadyAddress(data[0].address)
                 }
@@ -130,19 +130,14 @@ function success() {
 
     useEffect(()=>{
         if(alreadyAddress){
-            console.log("alreadyaddress: ",alreadyAddress)
+            // console.log("alreadyaddress: ",alreadyAddress)
         }
     },[alreadyAddress])
 
-    useEffect(()=>{
-        console.log("USER SET: ",user)
-    },[user])
   return (
     <div>
         {Object.keys(user).length !== 0 ? 
-        (<> <h1>
-            success
-            </h1>
+        (<> 
             {isLoading ? (<>
                 
                 <div role="status">
@@ -154,9 +149,9 @@ function success() {
                 </div>
 
             </>) : (null)}
-        <button onClick={()=>signOutUser()}>sign out </button>
+        <button onClick={()=>signOutUser()} className="group w-30 m-2 btn animate-pulse disabled:animate-none bg-gradient-to-r from-[#9945FF] to-[#14F195] hover:from-pink-500 hover:to-yellow-500 ... ">sign out </button>
         {isWhitelisted ? (
-        <div className='flex flex-col gap-y-24 items-center justify-center w-screen border border-white-700'>
+        <div className='flex flex-col gap-y-24 items-center justify-center w-screen '>
             <h2 className='text-2xl' >user is whitelisted</h2>
             {alreadyAddress ?
             (<>
