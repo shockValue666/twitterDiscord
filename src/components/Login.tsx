@@ -6,6 +6,7 @@ import {supabase} from '../utils/connectdb'
 
 function Login(props) {
     const router = useRouter()
+    console.log("router: ",router)
 
 
     supabase?.auth.onAuthStateChange(async (e)=>{
@@ -23,6 +24,8 @@ function Login(props) {
             theme={"dark"}
             providers={['discord']}
             onlyThirdPartyProviders={true}
+            // redirectTo={`${window.location.origin}/success`}
+            redirectTo={"https://main--magical-haupia-2e0644.netlify.app/success"}
         />
     </div>
   )
