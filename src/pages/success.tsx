@@ -110,7 +110,7 @@ function success() {
     useEffect(()=>{
         const getUserAddress = async () =>{
             const user = await supabase.auth.getUser()
-            const id = user.data.user.id
+            const id = user.data.user?.id
             const { data, error } = await supabase
                 .from('addresses')
                 .select()
@@ -129,10 +129,15 @@ function success() {
     },[])
 
     useEffect(()=>{
-        if(alreadyAddress){
-            // console.log("alreadyaddress: ",alreadyAddress)
+        async function getUser(){
+        const user = await supabase.auth.getUser();
+        console.log("user: user: ",user)
+        if(!user.data.user?.id){
+            router.push("/");
         }
-    },[alreadyAddress])
+        }
+        getUser();
+    },[])
 
   return (
     <div>
