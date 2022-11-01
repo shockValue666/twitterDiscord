@@ -25,7 +25,7 @@ function Login(props) {
             providers={['discord']}
             onlyThirdPartyProviders={true}
             // redirectTo={`${window.location.origin}/success`}
-            redirectTo={"https://main--magical-haupia-2e0644.netlify.app/success"}
+            // redirectTo={"https://main--magical-haupia-2e0644.netlify.app/success"}
         />
     </div>
   )
