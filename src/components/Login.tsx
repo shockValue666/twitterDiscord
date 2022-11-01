@@ -26,6 +26,7 @@ function Login(props) {
             onlyThirdPartyProviders={true}
             // redirectTo={`${window.location.origin}/success`}
             // redirectTo={"https://main--magical-haupia-2e0644.netlify.app/success"}
+            redirectTo={"https://whitelist.depravedscientists.online/success"}
         />
     </div>
   )
