@@ -3,6 +3,7 @@ import {createClient} from '@supabase/supabase-js'
 import {Auth, ThemeSupa} from "@supabase/auth-ui-react"
 import {useRouter} from 'next/router'
 import { supabase } from 'utils/connectdb'
+import Image from 'next/image'
 
 
 
@@ -19,6 +20,8 @@ function success() {
     const [update,setUpdate] = useState(false)
     const [alreadyAddress,setAlreadyAddress] = useState("");
     const [userAddressToBeUpdated,setUserAddressToBeUpdated] = useState("");
+    const [userimg,setUserImg] = useState("")
+    const [username,setUsername] = useState("")
 
 
     useEffect(()=>{
@@ -135,9 +138,17 @@ function success() {
         if(!user.data.user?.id){
             router.push("/");
         }
+        setUserImg(user.data.user.user_metadata.avatar_url)
+        setUsername(user.data.user.user_metadata.full_name)
         }
         getUser();
     },[])
+
+    useEffect(()=>{
+        if(username && userimg){
+            console.log("username: ",username," userImg: ",userimg)
+        }
+    },[username,userimg])
 
   return (
     <div>
@@ -155,9 +166,15 @@ function success() {
 
             </>) : (null)}
         <button onClick={()=>signOutUser()} className="group w-30 m-2 btn animate-pulse disabled:animate-none bg-gradient-to-r from-[#9945FF] to-[#14F195] hover:from-pink-500 hover:to-yellow-500 ... ">sign out </button>
-        {isWhitelisted ? (
+        {isWhitelisted && user ? (
         <div className='flex flex-col gap-y-24 items-center justify-center w-screen '>
-            <h2 className='text-2xl' >user is whitelisted</h2>
+            <h2 className='text-2xl' > {username} is whitelisted</h2>
+            {userimg ? (<Image
+                src={userimg}
+                height={250}
+                width={250}
+            />) : (null)}
+
             {alreadyAddress ?
             (<>
                 <h1> address you have submitted: {alreadyAddress}</h1>
