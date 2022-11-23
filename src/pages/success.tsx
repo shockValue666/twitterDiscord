@@ -168,7 +168,7 @@ function success() {
         <button onClick={()=>signOutUser()} className="group w-30 m-2 btn animate-pulse disabled:animate-none bg-gradient-to-r from-[#9945FF] to-[#14F195] hover:from-pink-500 hover:to-yellow-500 ... ">sign out </button>
         {isWhitelisted && user ? (
         <div className='flex flex-col gap-y-24 items-center justify-center w-screen '>
-            <h2 className='text-2xl' > {username} is whitelisted</h2>
+            <h2 className='text-2xl' >Congratulations {username} you are whitelisted</h2>
             {userimg ? (<Image
                 src={userimg}
                 height={250}
