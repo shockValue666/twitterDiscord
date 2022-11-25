@@ -98,9 +98,13 @@ function success() {
         if(discordId){
             const isWhiteListedFunction = async () => {
                 // console.log(`https://wl-checker.herokuapp.com/${discordId}`)
-                const res = await fetch(`https://wl-checker.herokuapp.com/${discordId}`)
+                // const res = await fetch(`https://wl-checker.herokuapp.com/${discordId}`)
+                
+                const res = await fetch(`https://wlapi.onrender.com/${discordId}`)
+                console.log("res: ",res)
                 const body = await res.json()
                 if(body){
+                    console.log("whitelisteddddd")
                     setIsWhitelisted(true)
                 }
                 setIsLoading(false)
