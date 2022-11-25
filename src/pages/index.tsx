@@ -10,7 +10,7 @@ const Home: NextPage = (props) => {
         <title>descientists whitelist</title>
         <meta
           name="description"
-          content="Solana Scaffold"
+          content="Descientists Whitelist Tool "
         />
       </Head>
       <HomeView />
