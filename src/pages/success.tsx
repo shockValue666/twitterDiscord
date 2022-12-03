@@ -98,7 +98,8 @@ function success() {
                 // console.log(`https://wl-checker.herokuapp.com/${discordId}`)
                 // const res = await fetch(`https://wl-checker.herokuapp.com/${discordId}`)
                 
-                const res = await fetch(`https://wlapi.onrender.com/${discordId}`)
+                // const res = await fetch(`https://wlapi.onrender.com/${discordId}`)
+                const res = await fetch(`https://wl-api.vercel.app/${discordId}`)
                 console.log("res: ",res)
                 const body = await res.json()
                 if(body){
