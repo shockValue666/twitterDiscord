@@ -4,6 +4,12 @@ import {Auth, ThemeSupa} from "@supabase/auth-ui-react"
 import {useRouter} from 'next/router'
 import { supabase } from 'utils/connectdb'
 import Image from 'next/image'
+import SetEmail from '../components/SetEmail'
+import UpdateEmail from 'components/updateEmail'
+import SetAddress from 'components/SetAddress'
+import UpdateAddress from 'components/UpdateAddress'
+import DesktopView from 'components/DesktopView'
+import MobileView from 'components/MobileView'
 
 
 
@@ -19,10 +25,42 @@ function success() {
     const [isLoading,setIsLoading] = useState(true)
     const [update,setUpdate] = useState(false)
     const [alreadyAddress,setAlreadyAddress] = useState("");
+    const [alreadyEmail,setAlreadyEmail] = useState("");
     const [userAddressToBeUpdated,setUserAddressToBeUpdated] = useState("");
     const [userimg,setUserImg] = useState("")
     const [username,setUsername] = useState("")
 
+
+
+    const [width, setWindowWidth] = useState(0)
+    const [mobileView,setMobileView] = useState(false)
+
+    useEffect(() => { 
+
+     updateDimensions();
+     console.log("width: ",width)
+     if(width<620){
+        console.log("mobile view is smaller than 480 ")
+        console.log("width<480: ", width<480)
+        setMobileView(true)
+     }else{
+        setMobileView(false)
+     }
+
+     window.addEventListener("resize", updateDimensions);
+     return () => 
+       window.removeEventListener("resize",updateDimensions);
+    })
+
+    useEffect(()=>{
+        console.log("mobileview: : : ",mobileView)
+    },[mobileView])
+
+
+    const updateDimensions = () => {
+      const width = window.innerWidth
+      setWindowWidth(width)
+    }
 
     useEffect(()=>{
     },[])
@@ -35,51 +73,10 @@ function success() {
         router.push("/");
     }
 
-    const setAddress = async () => {
-        // console.log("userAddress :",userAddress)
-        try {
-            const user = await supabase.auth.getUser();
-            // console.log("id: : : ",user.data.user.id)
-            const updates = {
-            user_id: user.data.user.id,
-            address:userAddress,
-            // created_at: new Date(),
-            };
-
-            let { data,error } = await supabase.from('addresses').insert(updates).select();
-            if (error) {
-            throw error;
-            }
-            // console.log("data after inserting: ",data)
-            if(data[0].address){
-                setAlreadyAddress(data[0].address)
-            }
-        } catch (error) {
-            alert(error.message);
-        }
-    }
+    
 
 
-    const updateAddress = async () => {
-        // console.log("userAddress :",userAddressToBeUpdated)
-        try {
-            const user = await supabase.auth.getUser();
-            // console.log("id: : : ",user.data.user.id)
-            const updates = {
-            user_id: user.data.user.id,
-            address:userAddress,
-            // created_at: new Date(),
-            };
-
-            let { data,error } = await supabase.from('addresses').insert(updates).select();
-            if (error) {
-            throw error;
-            }
-            // console.log("data after inserting: ",data)
-        } catch (error) {
-            alert(error.message);
-        }
-    }
+    
 
     useEffect(()=>{
         async function getUserData(){
@@ -95,6 +92,7 @@ function success() {
 
 
     useEffect(()=>{
+        console.log("discordiddddddd: ",discordId)
         if(discordId){
             const isWhiteListedFunction = async () => {
                 // console.log(`https://wl-checker.herokuapp.com/${discordId}`)
@@ -129,6 +127,9 @@ function success() {
                 // console.log("data: ",data);
                 if(data[0]?.address){
                     setAlreadyAddress(data[0].address)
+                }
+                if(data[0]?.email){
+                    setAlreadyEmail(data[0].email)
                 }
             }
         }
@@ -171,41 +172,35 @@ function success() {
             </>) : (null)}
         <button onClick={()=>signOutUser()} className="group w-30 m-2 btn animate-pulse disabled:animate-none bg-gradient-to-r from-[#9945FF] to-[#14F195] hover:from-pink-500 hover:to-yellow-500 ... ">sign out </button>
         {isWhitelisted && user ? (
-        <div className='flex flex-col gap-y-24 items-center justify-center w-screen '>
-            <h2 className='text-2xl' >Congratulations {username} you are whitelisted</h2>
-            {userimg ? (<Image
-                src={userimg}
-                height={250}
-                width={250}
-            />) : (null)}
+        <div className='flex flex-col items-center gap-y-12 justify-around w-[100%] '>
+            
+                <h2 className='text-2xl' >Congratulations {username} you are whitelisted</h2>
+                {alreadyAddress ? <h1> address you have submitted: {alreadyAddress}</h1> : (null)}
+                {alreadyEmail ? <h1> email you have submitted: {alreadyEmail}</h1> : (null)}
+                {userimg ? (<Image
+                    src={userimg}
+                    height={200}
+                    width={200}
+                />) : (null)}
 
-            {alreadyAddress ?
-            (<>
-                <h1> address you have submitted: {alreadyAddress}</h1>
-                <form onSubmit={e=>{e.preventDefault();updateAddress();}} className={"flex flex-col gap-y-8"}>
-                    <div>
-                        <input type="text" placeholder="Type here" className="input input-bordered input-secondary w-full max-w-xs" value={userAddressToBeUpdated} onChange={(e) => setUserAddressToBeUpdated(e.target.value)}/>
+                {
+                    mobileView ?
+                    (
+                        <div className='w-[100%]'>
+                            <MobileView alreadyAddress={alreadyAddress} alreadyEmail={alreadyEmail} setAlreadyAddress={setAlreadyAddress} setAlreadyEmail={setAlreadyEmail}/>
+                        </div>
+                    )
+                    :
+                    
+                    (
+                        <div className='w-[100%]'>
+                            <DesktopView alreadyAddress={alreadyAddress} alreadyEmail={alreadyEmail} setAlreadyAddress={setAlreadyAddress} setAlreadyEmail={setAlreadyEmail}/>
+                        </div>
+                    )
+                }
 
-                    </div>
-                    <div>
-                        <button type="submit" className="group w-60 m-2 btn animate-pulse disabled:animate-none bg-gradient-to-r from-[#9945FF] to-[#14F195] hover:from-pink-500 hover:to-yellow-500 ... ">
-                            <span>update address</span>
-                        </button>
-                    </div>
-                </form>
-            </>) 
-            : 
-            (<form onSubmit={e=>{e.preventDefault();setAddress();}} className={"flex flex-col gap-y-8"}>
-                <div>
-                    <input type="text" placeholder="Type here" className="input input-bordered input-secondary w-full max-w-xs" value={userAddress} onChange={(e) => setUserAddress(e.target.value)}/>
 
-                </div>
-                <div>
-                    <button type="submit" className="group w-60 m-2 btn animate-pulse disabled:animate-none bg-gradient-to-r from-[#9945FF] to-[#14F195] hover:from-pink-500 hover:to-yellow-500 ... ">
-                        <span>set address</span>
-                    </button>
-                </div>
-            </form>)}
+                    
         </div>
         ) : (null)}
         </>

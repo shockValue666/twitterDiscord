@@ -26,6 +26,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
               <ContentContainer>
                 <Component {...pageProps} />
               </ContentContainer>
+              <div style={{marginTop:"30px"}}></div>
               <Footer/>
             </div>
           </ContextProvider>
