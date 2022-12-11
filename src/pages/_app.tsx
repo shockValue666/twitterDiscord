@@ -16,7 +16,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
   return (
         <>
           <Head>
-            <title>Descientists Whitelist </title>
+            <title>Descientists LabList </title>
           </Head>
 
           <ContextProvider>

@@ -7,7 +7,7 @@ const Home: NextPage = (props) => {
   return (
     <div>
       <Head>
-        <title>descientists whitelist</title>
+        <title>Descientists Lablist</title>
         <meta
           name="description"
           content="Descientists Whitelist Tool "

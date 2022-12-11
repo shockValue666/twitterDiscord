@@ -3,6 +3,8 @@ import {createClient} from '@supabase/supabase-js'
 import {Auth, ThemeSupa} from "@supabase/auth-ui-react"
 import {useRouter} from 'next/router'
 import {supabase} from '../utils/connectdb'
+import Image from 'next/image'
+import { newLogo } from 'assets';
 
 function Login(props) {
     const router = useRouter()
@@ -17,7 +19,10 @@ function Login(props) {
         }
     })
   return (
-    <div>Login
+    <div className='flex flex-col gap-y-8' >
+        <h1 className='text-2xl'>Descientists Lablist</h1>
+        <Image src={newLogo} width={360} height={240} />
+        <h1>Login</h1>
         <Auth
             supabaseClient={supabase}
             appearance={{theme: ThemeSupa}}

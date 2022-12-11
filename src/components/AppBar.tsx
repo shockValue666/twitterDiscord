@@ -1,14 +1,26 @@
-import { FC } from 'react';
+import { FC,useEffect,useState } from 'react';
 import Link from "next/link";
+import { supabase } from 'utils/connectdb'
 
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { useAutoConnect } from '../contexts/AutoConnectProvider';
 import NetworkSwitcher from './NetworkSwitcher';
 import Image from 'next/image'
-import { newLogo } from 'assets';
+import { newLogo,Wallet } from 'assets';
 
 export const AppBar: FC = props => {
   const { autoConnect, setAutoConnect } = useAutoConnect();
+  const [userImg,setUserImg] = useState()
+  useEffect(()=>{
+        async function getUserData(){
+            const user = await supabase.auth.getUser()
+            if(user.data?.user){
+                console.log(user.data.user.user_metadata.provider_id)
+                setUserImg(user.data.user.user_metadata.avatar_url)
+            }
+        }
+        getUserData();
+    },[]) // runs once
 
   return (
     <div>
@@ -23,7 +35,7 @@ export const AppBar: FC = props => {
             </svg>
           </label> */}
         
-          <div className="hidden sm:inline w-22 h-22 md:p-2">
+          <div className="inline w-22 h-22 md:p-2">
             <Image src={newLogo} alt="bank" width={"120px"} height="80px" className='w-[180px] h-[120px]' />
           </div>
         </div>
@@ -42,7 +54,19 @@ export const AppBar: FC = props => {
 
         {/* Wallet & Settings */}
         <div className="navbar-end">
-          <WalletMultiButton className="btn btn-ghost mr-4" />
+          <WalletMultiButton className="btn btn-ghost mr-4 border border-white-500" />
+          {
+            userImg ?
+            (
+            <div className="avatar">
+            <div className="w-14 rounded-xl">
+              <Image src={userImg} height={50} width={50}/>
+            </div>
+          </div>
+          )
+            :
+            (null)
+          }
 
           <div className="dropdown dropdown-end">
             <div tabIndex={0} className="btn btn-square btn-ghost text-right">
