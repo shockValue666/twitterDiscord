@@ -228,65 +228,69 @@ function success() {
     <div>
         {
             accepted ? 
-            (null)
+            (
+                <>
+                    {Object.keys(user).length !== 0 ? 
+                    (<> 
+                    <div className='flex flex-col items-center justify-center gap-y-8 mt-10' >
+                        <h1>discord name</h1>
+                        {
+                            !formVisible ?
+                            (null)
+                            :
+                            (
+                                <div className='flex justify-center items-center gap-x-5' >
+                                    <input type="text" placeholder="username#0000" onChange={(e)=>{setDiscordUsernameFromInput(e.target.value)}} className="input input-bordered input-primary w-full max-w-xs" />
+                                    <button className="btn btn-accent" onClick={()=>{saveDiscordName()}}>Set Discord Name</button>
+                                </div>
+                            )
+                        }
+                            {
+                                discordAuthVisible ? 
+                                (<Auth
+                                    supabaseClient={supabase}
+                                    appearance={{theme: ThemeSupa}}
+                                    theme={"dark"}
+                                    providers={['discord']}
+                                    onlyThirdPartyProviders={true}
+                                    // redirectTo={`${window.location.origin}/success`}
+                                    // redirectTo={"https://main--magical-haupia-2e0644.netlify.app/success"}
+                                    // redirectTo={"https://whitelist.depravedscientists.online/"}
+                                />)
+                                :(
+                                    null
+                                )
+                            }
+                            {
+                                errorNotification ?
+                                (
+                                    <div className="alert alert-error shadow-lg">
+                                        <div>
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                            <span>Error! {errorNotification}</span>
+                                        </div>
+                                        </div>
+                                )
+                                :
+                                (null)
+
+                            }
+                                
+                    </div>
+                    <button className="btn btn-accent" onClick={()=>{signOutUser()}}>Sign out</button>
+                    </>
+                    ) : 
+                    (<div className="w-[100%] flex justify-center items-center">
+                        <h1>user is not logged in</h1>
+                    </div>)}
+                </>
+            )
             :
             (<div>
                 <h1 className='text-2xl'>Your application is {accpetedStatus}</h1>
             </div>)
         }
-        {Object.keys(user).length !== 0 ? 
-        (<> 
-           <div className='flex flex-col items-center justify-center gap-y-8 mt-10' >
-            <h1>discord name</h1>
-            {
-                !formVisible ?
-                (null)
-                :
-                (
-                    <div className='flex justify-center items-center gap-x-5' >
-                        <input type="text" placeholder="username#0000" onChange={(e)=>{setDiscordUsernameFromInput(e.target.value)}} className="input input-bordered input-primary w-full max-w-xs" />
-                        <button className="btn btn-accent" onClick={()=>{saveDiscordName()}}>Set Discord Name</button>
-                    </div>
-                )
-            }
-                {
-                    discordAuthVisible ? 
-                    (<Auth
-                        supabaseClient={supabase}
-                        appearance={{theme: ThemeSupa}}
-                        theme={"dark"}
-                        providers={['discord']}
-                        onlyThirdPartyProviders={true}
-                        // redirectTo={`${window.location.origin}/success`}
-                        // redirectTo={"https://main--magical-haupia-2e0644.netlify.app/success"}
-                        // redirectTo={"https://whitelist.depravedscientists.online/"}
-                    />)
-                    :(
-                        null
-                    )
-                }
-                {
-                    errorNotification ?
-                    (
-                        <div className="alert alert-error shadow-lg">
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                <span>Error! {errorNotification}</span>
-                            </div>
-                            </div>
-                    )
-                    :
-                    (null)
-
-                }
-                    
-           </div>
-           <button className="btn btn-accent" onClick={()=>{signOutUser()}}>Sign out</button>
-        </>
-        ) : 
-        (<div className="w-[100%] flex justify-center items-center">
-            <h1>user is not logged in</h1>
-        </div>)}
+        
     </div>
   )
 }
