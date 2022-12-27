@@ -109,7 +109,7 @@ function success() {
             }
             if(data[0]?.accepted !== "accepted"){
                 setAccepted(false)
-                setAccepted(data[0]?.accepted)
+                setAcceptedStatus(data[0]?.accepted)
                 // router.push("/")
             }
             console.log("data from twitter: ",data)
