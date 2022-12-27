@@ -22,6 +22,7 @@ function success() {
     const [errorNotification,setErrorNotification] = useState("");
     const [formVisible,setFormVisible] = useState(true)
     const [everythingSubmitted,setEverythingSubmitted] = useState(false)
+    const [accpetedStatus,setAcceptedStatus] = useState("")
 
 
 
@@ -107,7 +108,9 @@ function success() {
                 setAccepted(true);
             }
             if(data[0]?.accepted !== "accepted"){
-                router.push("/")
+                setAccepted(false)
+                setAccepted(data[0]?.accepted)
+                // router.push("/")
             }
             console.log("data from twitter: ",data)
         }else{
@@ -223,6 +226,14 @@ function success() {
 
   return (
     <div>
+        {
+            accepted ? 
+            (null)
+            :
+            (<div>
+                <h1 className='text-2xl'>Your application is {accpetedStatus}</h1>
+            </div>)
+        }
         {Object.keys(user).length !== 0 ? 
         (<> 
            <div className='flex flex-col items-center justify-center gap-y-8 mt-10' >
