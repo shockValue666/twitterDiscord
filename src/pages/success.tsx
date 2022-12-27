@@ -99,12 +99,15 @@ function success() {
  
     const getUserDataTwitter = async (data,error) =>{
         if(data){
-            if(data[0]?.accepted == "accepted"){
-                setAccepted(true);
-            }
             if(data[0]?.discord_name){
                 setDiscordAuthVisible(true);   
                 setDiscordUsernameFromInput(data[0].discord_name)
+            }
+            if(data[0]?.accepted == "accepted"){
+                setAccepted(true);
+            }
+            if(data[0]?.accepted !== "accepted"){
+                router.push("/")
             }
             console.log("data from twitter: ",data)
         }else{
