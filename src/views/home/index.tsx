@@ -64,8 +64,6 @@ export const HomeView: FC = ({ }) => {
       <div className="md:hero-content flex flex-col">
           <div className="text-center">
             <Login/>
-          {/* <RequestAirdrop /> */}
-          {/* {wallet.publicKey && <p>Public Key: {wallet.publicKey.toBase58()}</p>} */}
           {wallet && <p>SOL Balance: {(balance || 0).toLocaleString()}</p>}
         </div>
       </div>
