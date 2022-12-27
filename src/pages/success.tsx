@@ -286,8 +286,9 @@ function success() {
                 </>
             )
             :
-            (<div>
+            (<div className="flex flex-col items-center justify-center gap-y-8 mt-10">
                 <h1 className='text-2xl'>Your application is {accpetedStatus}</h1>
+                <button className="btn btn-accent" onClick={()=>{signOutUser()}}>Sign out</button>
             </div>)
         }
         
